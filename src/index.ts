@@ -1,5 +1,6 @@
 import express from 'express'
 import morgan from 'morgan'
+import { pbRouter } from './routes/pastebin'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -18,6 +19,8 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString()
   })
 })
+
+app.use('/v1', pbRouter)
 
 app.listen(PORT, () => {
   console.info(`🚀 Server runing on http://localhost:${PORT}`)
