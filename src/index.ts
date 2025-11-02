@@ -30,6 +30,12 @@ app.get('/health', (req, res) => {
 
 app.use('/v1/pastebin', pasteRouter)
 
+// Middleware de manejo de errores para capturar excepciones en rutas async
+app.use((err: any, _req: any, res: any, _next: any) => {
+  console.error('Unhandled error in Express route:', err)
+  res.status(500).json({ error: 'Internal Server Error' })
+})
+
 if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.info(`Server running on http://localhost:${PORT}`)
