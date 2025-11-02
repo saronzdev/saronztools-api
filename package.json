@@ -2,7 +2,7 @@
   "name": "saronztools-api",
   "version": "1.0.0",
   "description": "SaronzTools API",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "scripts": {
     "dev": "tsx --env-file .env --watch src/index.ts",
     "build": "pnpm tsc",
