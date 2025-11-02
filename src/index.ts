@@ -30,6 +30,8 @@ app.get('/health', (req, res) => {
 
 app.use('/v1/pastebin', pasteRouter)
 
-app.listen(PORT, () => {
-  console.info(`Server running on http://localhost:${PORT}`)
-})
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.info(`Server running on http://localhost:${PORT}`)
+  })
+}
