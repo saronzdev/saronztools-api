@@ -1,29 +1,32 @@
 import { Router } from 'express'
-import { read_json, write_json } from '../database/json'
+import { createPaste, getPasteBySlug } from '../database/pastebin'
 import { PasteIn, PasteOut } from '../types'
 import { nano } from '../services/constants'
 import { validatePaste } from '../services/validations'
+import { incrementPasteViews } from '../database/pastebin'
 
-export const pbRouter = Router()
+export const pasteRouter = Router()
 
-pbRouter.get('/', (req, res) => {
-  const data = read_json()
-  if (data.length === 0) return res.sendStatus(404)
+// pasteRouter.get('/', (req, res) => {})
+
+pasteRouter.get('/:slug', async (req, res) => {
+  const { slug } = req.params
+  const data = await getPasteBySlug(slug)
+  if (!data) return res.sendStatus(404)
   res.json(data)
 })
 
-pbRouter.get('/:slug', (req, res) => {
-  const { slug } = req.params
-  const data = read_json()
-  const match = data.filter((i) => i.slug === slug)
-  if (match.length === 0) return res.sendStatus(404)
-  res.json(match)
+pasteRouter.post('/', async (req, res) => {
+  const data: PasteIn = req.body
+  if (!data && validatePaste(data)) return res.status(400).json({ message: 'Some fields missing' })
+  const result = await createPaste(data)
+  if (!result) return res.sendStatus(500)
+  res.status(201).json({ slug: result })
 })
 
-pbRouter.post('/', (req, res) => {
-  const data: PasteIn = req.body
-  if (!data && validatePaste(data)) res.status(400).json({ message: 'Some fileds missing' })
-  const newData: PasteOut = { ...data, slug: nano(), createdAt: Date.now() }
-  write_json(newData)
-  res.sendStatus(201)
+pasteRouter.patch('/:slug', async (req, res) => {
+  const { slug } = req.params
+  const result = await incrementPasteViews(slug)
+  if (!result) return res.sendStatus(500)
+  res.sendStatus(200)
 })

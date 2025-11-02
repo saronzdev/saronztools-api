@@ -1,11 +1,11 @@
 export type PasteIn = {
+  slug: string
   body: string
   author: string | null
   exp: string
 }
 type Paste = {
-  slug: string
-  // authorId: number | null
+  views: number
   createdAt: number
 }
 

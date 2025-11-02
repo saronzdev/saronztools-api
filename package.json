@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "tsx --env-file .env --watch src/index.ts",
     "build": "pnpm tsc",
-    "start": "node --env-file .env dist/index.js"
+    "start": "node --env-file .env dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "vercel-build": "echo passed"
   },
   "keywords": [
     "express",
@@ -19,6 +21,9 @@
   "author": "saronzdev",
   "license": "MIT",
   "dependencies": {
+    "@libsql/client": "^0.15.15",
+    "@types/cors": "^2.8.19",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "morgan": "^1.10.1",
     "nanoid": "^5.1.6"

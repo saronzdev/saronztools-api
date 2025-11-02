@@ -1,10 +1,18 @@
 import express from 'express'
 import morgan from 'morgan'
-import { pbRouter } from './routes/pastebin'
+import cors from 'cors'
+import { initPastesTable } from './database/inits'
+import { pasteRouter } from './routes/pastebin'
 
-const app = express()
 const PORT = process.env.PORT || 3000
+initPastesTable().catch((error) => {
+  console.error('Failed to initialize database tables:', error)
+  process.exit(1)
+})
 
+export const app = express()
+
+app.use(cors({ origin: '*' }))
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -20,8 +28,8 @@ app.get('/health', (req, res) => {
   })
 })
 
-app.use('/v1', pbRouter)
+app.use('/v1/pastebin', pasteRouter)
 
 app.listen(PORT, () => {
-  console.info(`🚀 Server runing on http://localhost:${PORT}`)
+  console.info(`Server running on http://localhost:${PORT}`)
 })
