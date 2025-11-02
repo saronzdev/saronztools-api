@@ -1,7 +1,7 @@
 {
 	"version": 2,
 	"functions": {
-		"api/index.ts": { "runtime": "nodejs@20.x" }
+		"api/index.ts": { "runtime": "node@20" }
 	},
 	"installCommand": "pnpm install --no-frozen-lockfile",
 	"rewrites": [
