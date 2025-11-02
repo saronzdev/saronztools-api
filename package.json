@@ -2,8 +2,6 @@
   "name": "saronztools-api",
   "version": "1.0.0",
   "description": "SaronzTools API",
-  "packageManager": "pnpm@9.12.0",
-  "engines": { "node": "20.x" },
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx --env-file .env --watch src/index.ts",
